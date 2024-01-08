@@ -1,5 +1,25 @@
+
 GET http://localhost:8000/notes
 
 ###
 
-GET http://localhost:8000/notes/12
+GET http://localhost:8000/notes/659b664a343954eb9536cfca
+
+###
+
+POST http://localhost:8000/notes
+Content-Type: application/json
+
+{
+    "title" : "mac laptop"
+}
+
+###
+
+DELETE http://localhost:8000/notes/659b664a343954eb9536cfca
+
+
+###
+
+PATCH http://localhost:8000/notes/updateText/659b80cffb5867bfcbbe5430/macLaptopNewTextahhhh
+

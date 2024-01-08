@@ -5,27 +5,85 @@ const Note = require('../models/noteModel')
 module.exports = router
 
 //using restful endpoints for this REST api
-//Getting All
-router.get('/', (req,res) => {
-    res.send('Hello World')
+//Getting all Notes
+router.get('/', async (req,res) => {
+    try{
+        const notes = await Note.find({})
+        res.status(200).json(notes)
+    } catch (err) {
+        res.status(500).json({ message: err.message }) //error 500 : something wrong with server
+    } 
 })
-//Getting one
-router.get('/:id', (req,res) => {
-    res.send(req.params.id) //passing an id
+//Getting a specific Note using id
+router.get('/:id', async (req,res) => { //request from user, respond to user
+    try {
+        const note = await Note.findById(req.params.id)
+        if(note == null){
+            return res.status(404).json({message: "Note not found"})
+        }
+        res.status(200).json(note)
+    } catch (error) {
+        res.json({message: error.message})
+    }
 })
 
-//Creating one
-router.post('/', (req,res) => {
-    
+//Creating a Note
+router.post('/', async (req,res) => {
+    const note = new Note({
+        title: req.body.title,
+        text: req.body.text
+    })
+    try {
+        const newNote = await note.save()
+        res.status(201).json(newNote) //201 -> created something successfully
+    } catch (error) {
+        res.status(400).json({message: err.message}) //error 400: something wrong on user end such as bad data or unfilled data
+    }
 })
 
-//Updating one
-//patch = update a specific item in data object, put = update entire data object
-router.patch('/:id', (req,res) => {
+//Updating an item in Note object
+router.patch('/updateTitle/:id/:title', async (req,res) => {
     
+    try {
+        const title = req.params.title
+        const noteQuery = Note.findById(req.params.id)
+        const note = await Note.findOneAndUpdate(noteQuery, {
+            "title": title
+        },
+        {
+            new: true //returns modified instead of original, so updated json is given instead of original
+        }
+        )
+        res.status(200).json(note)        
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
+router.patch('/updateText/:id/:text', async (req,res) => {
+    
+    try {
+        const text = req.params.text
+        const noteQuery = Note.findById(req.params.id)
+        const note = await Note.findOneAndUpdate(noteQuery, {
+            "text": text
+        },
+        {
+            new: true //returns modified instead of original, so updated json object is given instead of original
+        }
+        )
+        res.status(200).json(note)        
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
 })
 
 //Deleting one
-router.patch('/:id', (req,res) => {
-    
+router.delete('/:id', async (req, res) => {
+    try {
+        await Note.findOneAndDelete(req.params.id)
+        res.json({message: "Note deleted."})
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
 })
