@@ -1,0 +1,9 @@
+#speechTTButton{
+    position: absolute;
+    left: 1065px;
+    top: 720px;
+    font-size: medium;
+    /* background-color: transparent; make the button transparent */
+    background-repeat: no-repeat;  /* make the background image appear only once */
+    background-position: 0px 0px;  /* equivalent to 'top left' */
+}
