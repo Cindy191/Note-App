@@ -6,7 +6,15 @@ module.exports = router
 
 //using restful endpoints for this REST api
 //Getting all Notes
-router.get('/', async (req,res) => {
+
+router.all('/*', (req, res, next)=> {
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type"); //needed to include the "Content-Type since that's what you used in the fetch POST function - these parameters trigger a preflight request from cors, so that's why you include them."
+    next();
+})
+
+
+router.get('/allNotes', async (req,res) => {
     try{
         const notes = await Note.find({})
         res.status(200).json(notes)
@@ -28,7 +36,7 @@ router.get('/:id', async (req,res) => { //request from user, respond to user
 })
 
 //Creating a Note
-router.post('/', async (req,res) => {
+router.post('/newNote', async (req,res) => {
     const note = new Note({
         title: req.body.title,
         text: req.body.text
@@ -43,7 +51,6 @@ router.post('/', async (req,res) => {
 
 //Updating an item in Note object
 router.patch('/updateTitle/:id/:title', async (req,res) => {
-    
     try {
         const title = req.params.title
         const noteQuery = Note.findById(req.params.id)

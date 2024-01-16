@@ -1,0 +1,16 @@
+#title{
+    position: absolute;
+    left: 300px;
+    top: 8px;
+}
+#textbox{
+    position: absolute;
+    left: 300px;
+    top: 80px;
+}
+#saveButton{
+    position: absolute;
+    left: 1065px;
+    top: 680px;
+    font-size: medium;
+}
