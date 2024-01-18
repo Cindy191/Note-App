@@ -2,6 +2,8 @@ import styles from './NewNote.module.css';
 import React, {useEffect, useState} from 'react';
 
 function NewNote(){
+
+    //POST
     const [title, setTitle] = useState("New Title")
     const [text, setText] = useState("")
 
@@ -29,6 +31,7 @@ function NewNote(){
     }
 
 
+    //GET ALL TITLES
     const urlDisplay = "http://localhost:8000/notes/allNotes";
     const [notes, setNotes] = useState([]); //empty array    
 
@@ -49,11 +52,13 @@ function NewNote(){
                 <button type ="submit" id={styles.saveButton}>Save</button>                
             </form>
 
+            {/* displays the notes and list items */}
             <ul id={styles.list}>
                 {notes.map((note, index) => (
-                    <div><button id = {styles.titleButtons} key = {index}>{note.title}</button></div>
+                    <div><button onClick={() => {setText(note.text); setTitle(note.title)}} id = {styles.titleButtons} key = {index}>{note.title}</button></div>
                 ))}
             </ul>
+            
 
         </div>
     );
