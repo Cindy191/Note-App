@@ -11,18 +11,23 @@ function DisplayNote(props){
 
     //GET ALL TITLES
     const urlDisplay = "http://localhost:8000/notes/allNotes";
-    const [notes, setNotes] = useState([]); //empty array    
+    const [notes, setNotes] = useState([]); //empty array  
 
-    useEffect(() => {
+    const getNotes = () => {
         fetch(urlDisplay)
         .then(response => response.json())
         .then(data => {
             setNotes(data)
         })
-        .catch(error => console.log(error.message))
-    }, [])
+        .catch(error => console.log(error.message))        
+    }
 
-    const handleSubmit = async (e) => {
+    useEffect(() => {
+        getNotes()
+    },[])
+
+
+    const handleUpdate = async (e) => {
         e.preventDefault();
         const url = `http://localhost:8000/notes/update/${id}/${title}/${text}`;
         fetch(url, {
@@ -35,6 +40,9 @@ function DisplayNote(props){
                 text: text
             })
         }).then(res => {
+            getNotes()
+            setTitle(title)
+            setText(text)
             return res.json()
         })
         .then(
@@ -44,15 +52,21 @@ function DisplayNote(props){
     }
 
     const urlDelete = `http://localhost:8000/notes/delete/${id}`;
-    const HandleDelete = async (e) => {
+    const handleDelete = () => {
         fetch(urlDelete, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json"
+            }
         })
         .then(res => {
-            console.log(res);
+            // notes.splice(id, 1); // "splice" out the list item we want to delete, but don't return a new list
+            getNotes();   //rerenders with the updated list for frontend
+            setTitle("");
+            setText("");
             return res.json();
         })
-        .catch(error => console.log("Error"))
+        .catch(error => console.log(error))
     }
     
     return(
@@ -64,13 +78,13 @@ function DisplayNote(props){
                 ))}
             </ul>
             
-            <form id = {styles.form} onSubmit = {handleSubmit}>
+            <form id = {styles.form} onSubmit = {handleUpdate}>
                 <textarea placeholder='Click Note Item to Display' value ={title} onChange={(e) => {setTitle(e.target.value)}} className = "titleBox" id={styles.title} rows="3" cols="90"></textarea>
                 <textarea placeholder = 'Click Note Item to Display' value ={text} onChange={(e) => {setText(e.target.value)}} id={styles.textbox} rows="45" cols="90"></textarea>
                 <button type ="submit" id={styles.saveButton}>Save Edit</button>                
             </form>
 
-            <button onClick={HandleDelete} id={styles.delete}>Delete</button>
+            <button onClick={handleDelete} id={styles.delete}>Delete</button>
 
         </div>
     );

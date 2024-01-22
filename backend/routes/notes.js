@@ -105,8 +105,11 @@ router.put('/update/:id/:title/:text', async (req,res) => {
 //Deleting one
 router.delete('/delete/:id', async (req, res) => {
     try {
-        await Note.findOneAndDelete(req.params.id)
-        res.json({message: "Note deleted."})
+        const noteQuery = Note.findById(req.params.id)
+        const note = await Note.findOneAndDelete(noteQuery,{
+            new: true
+        })
+        res.status(200).json(note)
     } catch (error) {
         res.status(500).json({message: error.message})
     }

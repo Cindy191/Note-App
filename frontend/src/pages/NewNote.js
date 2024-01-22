@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 
 function NewNote(){
     //POST
-    const [title, setTitle] = useState("New Title")
+    const [title, setTitle] = useState("Untitled Title")
     const [text, setText] = useState("")
 
     const handleSubmit = async (e) => {
@@ -20,13 +20,13 @@ function NewNote(){
                 text: text
             })
         }).then(res => {
+            getNotes()
             return res.json()
         })
         .then(
             data => console.log(data),
             alert('Submission successful!'))
         .catch(error => console.log("ERROR"))
-//TODO: useEffect to update list display after new Note posted
     }
 
     //GET ALL TITLES
@@ -35,17 +35,20 @@ function NewNote(){
     const [id, setID] = useState("");
 
         useEffect(() => {
-            fetch(urlDisplay)
-            .then(response => response.json())
-            .then(data => {
-                setNotes(data)
-            })
-            .catch(error => console.log(error.message))
+            getNotes();
         }, [])
+
+    const getNotes = () => {
+        fetch(urlDisplay)
+        .then(response => response.json())
+        .then(data => {
+            setNotes(data)
+        })
+        .catch(error => console.log(error.message))            
+    }
 
     return(
         <div>
-            
             <form id = {styles.form} onSubmit = {handleSubmit}>
                 <textarea placeholder='Insert Title here...' value ={title} onChange={(e) => {setTitle(e.target.value)}} className = "titleBox" id={styles.title} rows="3" cols="90"></textarea>
                 <textarea placeholder = 'Start your note...' value ={text} onChange={(e) => {setText(e.target.value)}} id={styles.textbox} rows="45" cols="90"></textarea>
@@ -55,7 +58,8 @@ function NewNote(){
             {/* displays the notes and list items */}
             <ul id={styles.list}>
                 {notes.map((note, i) => (
-                    <div key = {i}><button onClick={() => {setText(note.text); setTitle(note.title); setID(note._id)}} id = {styles.titleButtons} >{note.title}</button></div>
+                    // <div key = {i}><button onClick={() => {setText(note.text); setTitle(note.title); setID(note._id)}} id = {styles.titleButtons} >{note.title}</button></div>
+                    <p id={styles.titleItems}key = {i}>{note.title}</p>
                 ))}
             </ul>
         </div>
