@@ -1,12 +1,15 @@
 #title{
     position: absolute;
     left: 300px;
-    top: 8px;
+    top: 35px;
 }
 #textbox{
     position: absolute;
     left: 300px;
     top: 80px;
+}
+#form{
+    display:block;
 }
 #saveButton{
     position: absolute;
@@ -18,7 +21,7 @@
     color:aquamarine;
     width: 250px;
     height: 760px;
-    border: 3px solid black;
+    border: 3px solid red;
     padding: 5px;
     margin: 5px;
     overflow: hidden;

@@ -1,7 +1,6 @@
 const express = require('express')
 const router = express.Router()
 const Note = require('../models/noteModel')
-
 module.exports = router
 
 //using restful endpoints for this REST api
@@ -10,6 +9,7 @@ module.exports = router
 router.all('/*', (req, res, next)=> {
     res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type"); //needed to include the "Content-Type since that's what you used in the fetch POST function - these parameters trigger a preflight request from cors, so that's why you include them."
+    res.header("Access-Control-Allow-Methods", "GET, POST, PATCH, PUT, DELETE");
     next();
 })
 
@@ -85,8 +85,25 @@ router.patch('/updateText/:id/:text', async (req,res) => {
     }
 })
 
+router.put('/update/:id/:title/:text', async (req,res) => {
+    try {
+        const noteQuery = Note.findById(req.params.id)
+        const note = await Note.findOneAndUpdate(noteQuery, {
+            "title": req.body.title,
+            "text": req.body.text
+        },
+        {
+            new: true //returns modified instead of original, so updated json object is given instead of original
+        }
+        )
+        res.status(200).json(note)     
+    } catch (error) {
+        res.status(500).json({message: error.message})
+    }
+})
+
 //Deleting one
-router.delete('/:id', async (req, res) => {
+router.delete('/delete/:id', async (req, res) => {
     try {
         await Note.findOneAndDelete(req.params.id)
         res.json({message: "Note deleted."})
