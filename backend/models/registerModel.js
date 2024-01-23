@@ -3,13 +3,14 @@ const mongoose = require('mongoose')
 const registerSchema = new mongoose.Schema({
     username:{
         type: String,
+        unique: true,
         required: true
     },
     password: {
         type: String,
         required: true
     },
-    loginDate: {
+    registerDate: {
         type: Date,
         required: true,
         default: Date.now

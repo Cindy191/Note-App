@@ -12,7 +12,6 @@ const notesSchema = new mongoose.Schema({
         required: true,
         default: Date.now
     }
-
 })
 
 module.exports = mongoose.model('Note', notesSchema)

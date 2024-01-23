@@ -1,17 +1,19 @@
 #loginWord{
     position: absolute;
-    left: 945px;
+    left: 947px;
     top: 400px
 }
 #usernameBox{
     position: absolute;
-    left: 880px;
+    left: 890px;
     top: 460px;
+    padding: 10px;
 }
 #passwordBox{
     position: absolute;
-    left: 880px;
+    left: 890px;
     top: 510px;
+    padding: 10px;
 }
 #enterButton{
     position: absolute;

@@ -11,10 +11,10 @@ function App(){
         <div>
             <Nav />
                 <Routes>
-                    <Route path = "/notes/register" element = {<Register />}/>
-                    <Route path = "/notes/newNote" element = {<NewNote /> }/>
-                    <Route path = "/notes/displayNotes" element = {<DisplayNote /> }/>  
-                    <Route path = "/" element = {<Login/>} />
+                    <Route exact path = "/" element = {<Login/>} />
+                    <Route exact path = "/notes/register" element = {<Register />}/>
+                    <Route exact path = "/notes/newNote" element = {<NewNote /> }/>
+                    <Route exact path = "/notes/displayNotes" element = {<DisplayNote /> }/>  
                 </Routes>
         </div>
     );

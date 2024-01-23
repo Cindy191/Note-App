@@ -3,6 +3,21 @@ import React, {useEffect, useState} from 'react';
 
 function DisplayNote(props){
 
+    useEffect(() => {
+        (
+            async (e) => {
+                const response = await fetch('http://localhost:8000/notes/register', {
+                    headers: {'Content-Type': 'application/json'},
+                    credentials: 'include'
+                });
+                const content = await response.json();
+                console.log(content)
+
+            }
+        )();
+    }, [])
+
+
     //POST
     const [title, setTitle] = useState("")
     const [text, setText] = useState("")
@@ -85,7 +100,6 @@ function DisplayNote(props){
             </form>
 
             <button onClick={handleDelete} id={styles.delete}>Delete</button>
-            <button>Register</button>
 
         </div>
     );
