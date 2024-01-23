@@ -8,6 +8,7 @@ function Nav(){
         <nav> 
             <ul id={styles.nav}>
                 <CustomLink to="/">Login page</CustomLink>
+                <CustomLink to="/notes/register">Register</CustomLink>
                 <CustomLink to="/notes/displayNotes">My Notes</CustomLink>
                 <CustomLink to="/notes/newNote">New Note Here</CustomLink>
             </ul>

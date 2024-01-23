@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const Note = require('../models/noteModel')
+const Register = require('../models/registerModel')
 module.exports = router
 
 //using restful endpoints for this REST api

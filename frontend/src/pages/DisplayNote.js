@@ -85,6 +85,7 @@ function DisplayNote(props){
             </form>
 
             <button onClick={handleDelete} id={styles.delete}>Delete</button>
+            <button>Register</button>
 
         </div>
     );

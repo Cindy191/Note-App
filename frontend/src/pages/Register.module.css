@@ -1,0 +1,20 @@
+#registerWord{
+    position: absolute;
+    left: 840px;
+    top: 400px
+}
+#createUsername{
+    position: absolute;
+    left: 880px;
+    top: 460px;
+}
+#createPassword{
+    position: absolute;
+    left: 880px;
+    top: 510px;
+}
+#createButton{
+    position: absolute;
+    left: 945px;
+    top: 560px;
+}

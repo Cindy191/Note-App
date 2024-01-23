@@ -1,0 +1,25 @@
+#loginWord{
+    position: absolute;
+    left: 945px;
+    top: 400px
+}
+#usernameBox{
+    position: absolute;
+    left: 880px;
+    top: 460px;
+}
+#passwordBox{
+    position: absolute;
+    left: 880px;
+    top: 510px;
+}
+#enterButton{
+    position: absolute;
+    left: 945px;
+    top: 560px;
+}
+#newGuide{
+    position: absolute;
+    left: 855px;
+    top: 580px;
+}
