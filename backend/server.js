@@ -5,8 +5,11 @@ const cors = require('cors')
 const app = express()
 const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 app.use(express.json())
 app.use(cookieParser())
+app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json())
 app.use(cors({
     credentials: true, //allows us to exchange the cookies -> which allows to authenticate
     origin: ['http://localhost:3000']

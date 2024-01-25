@@ -1,22 +1,22 @@
 #registerWord{
     position: absolute;
-    left: 843px;
-    top: 400px
+    left: 623px;
+    top: 280px
 }
 #createUsername{
     position: absolute;
-    left: 890px;
-    top: 460px;
+    left: 670px;
+    top: 360px;
     padding: 10px;
 }
 #createPassword{
     position: absolute;
-    left: 890px;
-    top: 510px;
+    left: 670px;
+    top: 410px;
     padding: 10px;
 }
 #createButton{
     position: absolute;
-    left: 945px;
-    top: 560px;
+    left: 720px;
+    top: 460px;
 }

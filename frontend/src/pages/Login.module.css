@@ -1,27 +1,32 @@
+#welcome{
+    position: absolute;
+    left: 570px;
+    top: 210px;
+}
 #loginWord{
     position: absolute;
-    left: 947px;
-    top: 400px
+    left: 730px;
+    top: 300px
 }
 #usernameBox{
     position: absolute;
-    left: 890px;
-    top: 460px;
+    left: 670px;
+    top: 360px;
     padding: 10px;
 }
 #passwordBox{
     position: absolute;
-    left: 890px;
-    top: 510px;
+    left: 670px;
+    top: 410px;
     padding: 10px;
 }
 #enterButton{
     position: absolute;
-    left: 945px;
-    top: 560px;
+    left: 725px;
+    top: 460px;
 }
 #newGuide{
     position: absolute;
-    left: 855px;
-    top: 580px;
+    left: 635px;
+    top: 480px;
 }

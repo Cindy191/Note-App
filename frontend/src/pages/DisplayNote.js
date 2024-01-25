@@ -1,6 +1,9 @@
 import styles from './DisplayNote.module.css';
 import React, {useEffect, useState} from 'react';
 
+import {Container, Segment} from 'semantic-ui-react';
+import {useSpeechSynthesis} from 'react-speech-kit';
+
 function DisplayNote(props){
 
     useEffect(() => {
