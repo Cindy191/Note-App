@@ -1,10 +1,16 @@
 import styles from './DisplayNote.module.css';
 import React, {useEffect, useState} from 'react';
-
-import {Container, Segment} from 'semantic-ui-react';
 import {useSpeechSynthesis} from 'react-speech-kit';
 
 function DisplayNote(props){
+    const [title, setTitle] = useState('')
+    const [text, setText] = useState('');
+    const {speak} = useSpeechSynthesis();
+    const [id, setID] = useState("");
+    
+    const handleOnClick = () => {
+        speak({text:text});
+    }
 
     useEffect(() => {
         (
@@ -19,14 +25,7 @@ function DisplayNote(props){
             }
         )();
     }, [])
-
-
-    //POST
-    const [title, setTitle] = useState("")
-    const [text, setText] = useState("")
-    const [id, setID] = useState("");
-
-
+    
     //GET ALL TITLES
     const urlDisplay = "http://localhost:8000/notes/allNotes";
     const [notes, setNotes] = useState([]); //empty array  
@@ -102,8 +101,8 @@ function DisplayNote(props){
                 <button type ="submit" id={styles.saveButton}>Save Edit</button>                
             </form>
 
+            <button onClick = {() => {handleOnClick()}} id={styles.listen}>Listen</button>
             <button onClick={handleDelete} id={styles.delete}>Delete</button>
-
         </div>
     );
 }

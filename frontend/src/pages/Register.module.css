@@ -1,7 +1,7 @@
 #registerWord{
     position: absolute;
-    left: 623px;
-    top: 280px
+    left: 535px;
+    top: 260px
 }
 #createUsername{
     position: absolute;
@@ -18,5 +18,5 @@
 #createButton{
     position: absolute;
     left: 720px;
-    top: 460px;
+    top: 470px;
 }

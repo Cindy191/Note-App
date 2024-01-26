@@ -51,14 +51,13 @@ function NewNote(){
         <div>
             <form id = {styles.form} onSubmit = {handleSubmit}>
                 <textarea placeholder='Insert Title here...' value ={title} onChange={(e) => {setTitle(e.target.value)}} className = "titleBox" id={styles.title} rows="3" cols="90"></textarea>
-                <textarea placeholder = 'Start your note...' value ={text} onChange={(e) => {setText(e.target.value)}} id={styles.textbox} rows="45" cols="90"></textarea>
+                <textarea placeholder = 'Start your note...' value ={text} onChange={(e) => {setText(e.target.value)}} id={styles.textbox} rows="44" cols="90"></textarea>
                 <button type ="submit" id={styles.saveButton}>Save</button>                
             </form>
 
             {/* displays the notes and list items */}
             <ul id={styles.list}>
                 {notes.map((note, i) => (
-                    // <div key = {i}><button onClick={() => {setText(note.text); setTitle(note.title); setID(note._id)}} id = {styles.titleButtons} >{note.title}</button></div>
                     <p id={styles.titleItems}key = {i}>{note.title}</p>
                 ))}
             </ul>

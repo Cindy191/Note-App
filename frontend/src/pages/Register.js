@@ -30,7 +30,7 @@ function Register(){
 
     return(
         <div>
-            <h3 id={styles.registerWord}>Create MySecureNotes Account</h3>
+            <h1 id={styles.registerWord}>Create MySecureNotes Account</h1>
             <form id={styles.registerForm}>
                 <input type = "text" id={styles.createUsername} placeholder="Create Username" onChange={(e) => {setUsernameReg(e.target.value)}}></input>
                 <input type = "password" id={styles.createPassword} placeholder="Create Password" onChange={(e) => {setPasswordReg(e.target.value)}}></input>
