@@ -2,11 +2,13 @@ import styles from './Login.module.css';
 import React, {useEffect, useState, Component} from 'react';
 import {Navigate, redirect, useNavigate} from 'react-router-dom';
 import axios from 'axios';
+import {Link, useMatch, useResolvedPath } from "react-router-dom";
 
 function Login(){
     const [username, setUserName] = useState("")
     const [password, setPassword] = useState("")
     const navigate = useNavigate();
+    const [loginStatus, setLoggedStatus] = useState(false)
 
     const handleLogIn = (e) => {
         e.preventDefault()
@@ -16,11 +18,14 @@ function Login(){
             })
             .then(res => {
                 console.log(res)
-                if(res.data.Login){
-                    navigate('/notes/displayNotes');   
-                    console.log(res.data.message) 
+                if(res.data.auth){ //once authenticated then setLoggedStatus to true
+                    // navigate('/notes/displayNotes');   
+                    console.log(res.data.message);
+                    localStorage.setItem("token", res.data.token)
+                    setLoggedStatus(true);
                 }
-                else{
+                else{ //not authenticated => setLoggedStatus to false
+                    setLoggedStatus(false);
                     alert(res.data.message)
                 }
             })
@@ -39,6 +44,9 @@ function Login(){
                 <button id={styles.enterButton} type="submit" onClick={handleLogIn}>Log In</button>              
             </form>
             <p id={styles.newGuide}>(New? Click on Register at the top.)</p>
+            {loginStatus && <Link to = "/notes/displayNotes">MyNotes</Link>} 
+            {loginStatus && <Link to = "/notes/newNote">New Note</Link>}
+            {/* {loginStatus && <button onClick ={authenticateUser}>DisplayNotes</button>} */}
         </div>
     );
 }

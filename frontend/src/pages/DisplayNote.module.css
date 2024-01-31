@@ -52,3 +52,8 @@
     top: 760px;
     font-size: medium;
 }
+#linkNewNote{
+    position: absolute;
+    left: 690px;
+    top: 15px;
+}

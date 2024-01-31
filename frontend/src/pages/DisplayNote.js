@@ -1,50 +1,48 @@
 import styles from './DisplayNote.module.css';
 import React, {useEffect, useState} from 'react';
 import {useSpeechSynthesis} from 'react-speech-kit';
+import {Link} from 'react-router-dom';
 import Cookies from 'js-cookie';
+import axios from 'axios';
 
-function DisplayNote(props){
+function DisplayNote(){
     const [title, setTitle] = useState('')
     const [text, setText] = useState('');
     const {speak} = useSpeechSynthesis();
     const [id, setID] = useState("");
+    const [loginStatus, setLoggedStatus] = useState(true)
     
     const handleOnClick = () => {
         speak({text:text});
     }
 
-    useEffect(() => {
-        (
-            async (e) => {
-                const response = await fetch('http://localhost:8000/notes/register', {
-                    headers: {'Content-Type': 'application/json'},
-                    credentials: 'include'
-                });
-                const content = await response.json();
-                console.log(content)
 
-            }
-        )();
-    }, [])
-    
     //GET ALL TITLES
     const urlDisplay = "http://localhost:8000/notes/allNotes";
     const [notes, setNotes] = useState([]); //empty array  
-    //easier way: once logged in => get redirected to displayNotes page (protected routes)
-    //get the token by acessing cookie that stores the token then do below:
-    //can't get token from register.model because that contains the usernamea nd password and token
-    
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWIzN2ZkYTAzNDRkMzBjZWM2ZTRiMDQiLCJpYXQiOjE3MDYyNjI0OTB9.OXZ892vOGIlhzjkQXaRxBQUFwHrC69wOsA2K9jpDCiA";
+
     const getNotes = () => {
-        fetch(urlDisplay, {
-            headers: {"Authorization": `Bearer ${token}`}
-        })
+        fetch(urlDisplay)
         .then(response => response.json())
         .then(data => {
             setNotes(data)
         })
-        .catch(error => console.log("Unauthorized - Must Log In"))        
+        .catch(error => console.log(error))        
     }
+
+    // const getNotes = () => {
+    //     axios.get(urlDisplay, {
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "x-access-token": localStorage.getItem("token")
+    //         }
+    //     })
+    //     .then(res => {res.data.json()})
+    //     .then(data => {
+    //         setNotes(data)
+    //     })
+    //     .catch(error => console.log(error))        
+    // }
 
     useEffect(() => {
         getNotes()
@@ -57,7 +55,8 @@ function DisplayNote(props){
         fetch(url, {
             method: "PUT",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                // "x-access-token": localStorage.getItem("token")
             },
             body: JSON.stringify({
                 title: title,
@@ -110,6 +109,7 @@ function DisplayNote(props){
 
             <button onClick = {() => {handleOnClick()}} id={styles.listen}>Listen</button>
             <button onClick={handleDelete} id={styles.delete}>Delete</button>
+            {loginStatus && <Link to = "/notes/newNote" id={styles.linkNewNote}>New Note</Link>}
         </div>
     );
 }

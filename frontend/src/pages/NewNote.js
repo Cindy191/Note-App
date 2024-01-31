@@ -1,11 +1,13 @@
 import styles from './NewNote.module.css';
 import React, {useEffect, useState} from 'react';
+import {Link, useMatch, useResolvedPath } from "react-router-dom";
+import axios from 'axios';
 
 function NewNote(){
     //POST
     const [title, setTitle] = useState("Untitled Title")
     const [text, setText] = useState("")
-    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWIzN2ZkYTAzNDRkMzBjZWM2ZTRiMDQiLCJpYXQiOjE3MDYyNjI0OTB9.OXZ892vOGIlhzjkQXaRxBQUFwHrC69wOsA2K9jpDCiA";
+    const[loginStatus, setLoggedStatus] = useState(true)
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -14,8 +16,7 @@ function NewNote(){
         fetch(url, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json',
-                "Authorization": `Bearer ${token}`
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 title: title,
@@ -36,10 +37,6 @@ function NewNote(){
     const [notes, setNotes] = useState([]); //empty array
     const [id, setID] = useState("");
 
-    useEffect(() => {
-        getNotes();
-    }, [])
-
     const getNotes = () => {
         fetch(urlDisplay)
         .then(response => response.json())
@@ -48,6 +45,27 @@ function NewNote(){
         })
         .catch(error => console.log(error.message))            
     }
+
+    // const getNotes = () => {
+    //     axios.get(urlDisplay, {
+    //         headers: {
+    //             "Content-Type": "application/json",
+    //             "x-access-token": "Bearer" + localStorage.getItem("token")
+    //         }
+    //     })
+    //     .then((res) => {
+    //         res.json();
+    //     })
+    //     .then(data => {
+    //         setNotes(data)
+    //     })
+    //     .catch(error => console.log(error))        
+    // }
+
+    useEffect(() => {
+        getNotes();
+    }, [])
+
 
     return(
         <div>
@@ -63,6 +81,7 @@ function NewNote(){
                     <p id={styles.titleItems}key = {i}>{note.title}</p>
                 ))}
             </ul>
+            {loginStatus && <Link to = "/notes/displayNotes" id={styles.linkDisplayNote}>MyNotes</Link>} 
         </div>
     );
 }
