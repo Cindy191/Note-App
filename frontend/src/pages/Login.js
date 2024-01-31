@@ -1,27 +1,32 @@
 import styles from './Login.module.css';
 import React, {useEffect, useState, Component} from 'react';
-import {Navigate, redirect} from 'react-router-dom';
+import {Navigate, redirect, useNavigate} from 'react-router-dom';
 import axios from 'axios';
 
 function Login(){
     const [username, setUserName] = useState("")
     const [password, setPassword] = useState("")
+    const navigate = useNavigate();
 
     const handleLogIn = (e) => {
         e.preventDefault()
-
-        axios.post('http://localhost:8000/notes/login',{
-            username: username, 
-            password: password
-        })
-        .then(response=> {
-            console.log(response)
-            localStorage.setItem('login', JSON.stringify({
-                login: true,
-                token: response.data.token
-            }))
-        })
-        .catch(error => console.log(error));
+            axios.post('http://localhost:8000/notes/login',{
+                username: username, 
+                password: password
+            })
+            .then(res => {
+                console.log(res)
+                if(res.data.Login){
+                    navigate('/notes/displayNotes');   
+                    console.log(res.data.message) 
+                }
+                else{
+                    alert(res.data.message)
+                }
+            })
+            .catch (error => {
+                console.log(error)
+            })
    }
 
     return(

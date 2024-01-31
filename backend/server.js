@@ -5,6 +5,7 @@ const cors = require('cors')
 const app = express()
 const jwt = require("jsonwebtoken")
 const cookieParser = require('cookie-parser')
+const cookie = require('js-cookie')
 const bodyParser = require('body-parser')
 app.use(express.json())
 app.use(cookieParser())
@@ -12,7 +13,8 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json())
 app.use(cors({
     credentials: true, //allows us to exchange the cookies -> which allows to authenticate
-    origin: ['http://localhost:3000']
+    origin: ['http://localhost:3000'],
+    methods: ["GET", "POST", "PUT", "DELETE"]
 })) // frontend usually has a different port than backend so browser will throw an error
 
 //setting up routes:

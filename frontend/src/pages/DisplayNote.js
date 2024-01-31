@@ -1,6 +1,7 @@
 import styles from './DisplayNote.module.css';
 import React, {useEffect, useState} from 'react';
 import {useSpeechSynthesis} from 'react-speech-kit';
+import Cookies from 'js-cookie';
 
 function DisplayNote(props){
     const [title, setTitle] = useState('')
@@ -29,14 +30,20 @@ function DisplayNote(props){
     //GET ALL TITLES
     const urlDisplay = "http://localhost:8000/notes/allNotes";
     const [notes, setNotes] = useState([]); //empty array  
-
+    //easier way: once logged in => get redirected to displayNotes page (protected routes)
+    //get the token by acessing cookie that stores the token then do below:
+    //can't get token from register.model because that contains the usernamea nd password and token
+    
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWIzN2ZkYTAzNDRkMzBjZWM2ZTRiMDQiLCJpYXQiOjE3MDYyNjI0OTB9.OXZ892vOGIlhzjkQXaRxBQUFwHrC69wOsA2K9jpDCiA";
     const getNotes = () => {
-        fetch(urlDisplay)
+        fetch(urlDisplay, {
+            headers: {"Authorization": `Bearer ${token}`}
+        })
         .then(response => response.json())
         .then(data => {
             setNotes(data)
         })
-        .catch(error => console.log(error.message))        
+        .catch(error => console.log("Unauthorized - Must Log In"))        
     }
 
     useEffect(() => {

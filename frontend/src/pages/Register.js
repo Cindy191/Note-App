@@ -1,17 +1,17 @@
 import styles from './Register.module.css';
 import React, {useState} from 'react';
-import {Navigate} from 'react-router-dom';
+import {Navigate, useNavigate} from 'react-router-dom';
 
 function Register(){
     const [usernameReg, setUsernameReg] = useState("");
     const [passwordReg, setPasswordReg] = useState("");
-    const [redirect, setRedirect] = useState(false);
+    const navigate = useNavigate();
 
-    const handleCreateRegister = async (e) => {
+    const handleCreateRegister = (e) => {
         e.preventDefault();
         const urlRegister = "http://localhost:8000/notes/register";
         
-        await fetch(urlRegister, {
+        fetch(urlRegister, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -20,14 +20,16 @@ function Register(){
                 username: usernameReg,
                 password: passwordReg
             })
-        });
-        setRedirect(true);
+        })
+        .then((res) => {
+            console.log(res)
+            navigate('/');
+        })
+        .catch((e) => {
+            console.log(e)
+        })
     }
-
-    if(redirect){
-        return <Navigate to="/"/>;
-    }
-
+    
     return(
         <div>
             <h1 id={styles.registerWord}>Create MySecureNotes Account</h1>

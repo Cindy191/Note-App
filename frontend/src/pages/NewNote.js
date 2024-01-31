@@ -5,6 +5,7 @@ function NewNote(){
     //POST
     const [title, setTitle] = useState("Untitled Title")
     const [text, setText] = useState("")
+    const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWIzN2ZkYTAzNDRkMzBjZWM2ZTRiMDQiLCJpYXQiOjE3MDYyNjI0OTB9.OXZ892vOGIlhzjkQXaRxBQUFwHrC69wOsA2K9jpDCiA";
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -13,7 +14,8 @@ function NewNote(){
         fetch(url, {
             method: "POST",
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                "Authorization": `Bearer ${token}`
             },
             body: JSON.stringify({
                 title: title,
@@ -34,9 +36,9 @@ function NewNote(){
     const [notes, setNotes] = useState([]); //empty array
     const [id, setID] = useState("");
 
-        useEffect(() => {
-            getNotes();
-        }, [])
+    useEffect(() => {
+        getNotes();
+    }, [])
 
     const getNotes = () => {
         fetch(urlDisplay)
