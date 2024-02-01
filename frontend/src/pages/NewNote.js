@@ -1,7 +1,6 @@
 import styles from './NewNote.module.css';
 import React, {useEffect, useState} from 'react';
 import {Link, useMatch, useResolvedPath } from "react-router-dom";
-import axios from 'axios';
 
 function NewNote(){
     //POST
@@ -45,22 +44,6 @@ function NewNote(){
         })
         .catch(error => console.log(error.message))            
     }
-
-    // const getNotes = () => {
-    //     axios.get(urlDisplay, {
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "x-access-token": "Bearer" + localStorage.getItem("token")
-    //         }
-    //     })
-    //     .then((res) => {
-    //         res.json();
-    //     })
-    //     .then(data => {
-    //         setNotes(data)
-    //     })
-    //     .catch(error => console.log(error))        
-    // }
 
     useEffect(() => {
         getNotes();

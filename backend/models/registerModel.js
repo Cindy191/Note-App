@@ -10,10 +10,6 @@ const registerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    // token:{
-    //     type: String,
-    //     required: true
-    // },
     registerDate: {
         type: Date,
         required: true,

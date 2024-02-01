@@ -19,12 +19,11 @@ function Login(){
             .then(res => {
                 console.log(res)
                 if(res.data.auth){ //once authenticated then setLoggedStatus to true
-                    // navigate('/notes/displayNotes');   
                     console.log(res.data.message);
                     localStorage.setItem("token", res.data.token)
                     setLoggedStatus(true);
                 }
-                else{ //not authenticated => setLoggedStatus to false
+                else{ //not authenticated => setLoggedStatus()
                     setLoggedStatus(false);
                     alert(res.data.message)
                 }
@@ -44,9 +43,10 @@ function Login(){
                 <button id={styles.enterButton} type="submit" onClick={handleLogIn}>Log In</button>              
             </form>
             <p id={styles.newGuide}>(New? Click on Register at the top.)</p>
-            {loginStatus && <Link to = "/notes/displayNotes">MyNotes</Link>} 
-            {loginStatus && <Link to = "/notes/newNote">New Note</Link>}
-            {/* {loginStatus && <button onClick ={authenticateUser}>DisplayNotes</button>} */}
+            {/* {loginStatus && <Link to = "/notes/displayNotes" id={styles.loginDisplayNotes}>MyNotes</Link>}  */}
+            {/* {loginStatus && <Link to = "/notes/newNote" id={styles.loginNewNote}>New Note</Link>} */}
+            {loginStatus && navigate('/notes/displayNotes')} 
+
         </div>
     );
 }

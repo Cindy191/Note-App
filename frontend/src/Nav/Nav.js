@@ -3,16 +3,6 @@ import styles from "./Nav.module.css";
 import {Link, useMatch, useResolvedPath } from "react-router-dom";
 
 function Nav(){
-    // const logout = async () => {
-    //     const urlLogOut = "http://localhost:8000/notes/logout";
-    //     await fetch(urlLogOut, {
-    //         method: "POST",
-    //         headers: {
-    //             "Content-Type": "application/json"
-    //         },
-    //         credentials: 'include'
-    //     });
-    // }
 
     return(
         // pages
@@ -22,7 +12,6 @@ function Nav(){
                 <CustomLink to="/notes/register">Register</CustomLink>
                 {/* <CustomLink to="/notes/displayNotes">My Notes</CustomLink> */}
                 {/* <CustomLink to="/notes/newNote">New Note Here</CustomLink> */}
-                {/* <CustomLink to="/" onClick={logout}>Log Out</CustomLink> */}
             </ul>
         </nav>
     );

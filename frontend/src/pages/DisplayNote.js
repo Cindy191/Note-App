@@ -3,7 +3,6 @@ import React, {useEffect, useState} from 'react';
 import {useSpeechSynthesis} from 'react-speech-kit';
 import {Link} from 'react-router-dom';
 import Cookies from 'js-cookie';
-import axios from 'axios';
 
 function DisplayNote(){
     const [title, setTitle] = useState('')
@@ -19,7 +18,7 @@ function DisplayNote(){
 
     //GET ALL TITLES
     const urlDisplay = "http://localhost:8000/notes/allNotes";
-    const [notes, setNotes] = useState([]); //empty array  
+    const [notes, setNotes] = useState([]);
 
     const getNotes = () => {
         fetch(urlDisplay)
@@ -29,20 +28,6 @@ function DisplayNote(){
         })
         .catch(error => console.log(error))        
     }
-
-    // const getNotes = () => {
-    //     axios.get(urlDisplay, {
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //             "x-access-token": localStorage.getItem("token")
-    //         }
-    //     })
-    //     .then(res => {res.data.json()})
-    //     .then(data => {
-    //         setNotes(data)
-    //     })
-    //     .catch(error => console.log(error))        
-    // }
 
     useEffect(() => {
         getNotes()
@@ -55,8 +40,7 @@ function DisplayNote(){
         fetch(url, {
             method: "PUT",
             headers: {
-                'Content-Type': 'application/json',
-                // "x-access-token": localStorage.getItem("token")
+                'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 title: title,
@@ -83,7 +67,6 @@ function DisplayNote(){
             }
         })
         .then(res => {
-            // notes.splice(id, 1); // "splice" out the list item we want to delete, but don't return a new list
             getNotes();   //rerenders with the updated list for frontend
             setTitle("");
             setText("");

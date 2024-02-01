@@ -9,23 +9,7 @@ const Note = require('../models/noteModel')
 const Register = require('../models/registerModel')
 module.exports = router
 
-const verifyJWT = (req, res, next) => {
-    const token = req.headers["x-access-token"] //requesting the token from the client
-    if(!token){ //if we didn't get a token from the client -> we send back to them a message saying we didn't receive a token
-        res.json({message: "there is no token"})
-    }
-    else{
-        jwt.verify(token, "jwtSecret", (err, decoded) => {
-            if(err) {
-                res.json({auth: false, message: "You failed to authenticate"});
-            }
-            else{
-                req.userId = decoded.id;  //saves the id from the id associated with the token so that we can keep using the token for other api requests since we already verified it
-                next();
-            }
-        })
-    }
-}
+
 
 //Getting all Notes
 router.get('/allNotes', async (req,res) => {
@@ -33,25 +17,9 @@ router.get('/allNotes', async (req,res) => {
         const notes = await Note.find({})
         res.status(200).json(notes)
     } catch (err) {
-        res.status(500).json({ message: err.message }) //error 500 : something wrong with server
+        res.status(500).json({ message: err.message })
     } 
 })
-
-//Creating a Note - correct version without middleware
-// router.post('/newNote', async (req,res) => {
-//     const note = new Note({
-//         title: req.body.title,
-//         text: req.body.text
-//     })
-//     try {
-//         const newNote = await note.save()
-//         res.status(201).json(newNote) //201 -> created something successfully
-//     } catch (error) {
-//         res.status(400).json({message: err.message}) //error 400: something wrong on user end such as bad data or unfilled data
-//     }
-// })
-
-
 
 router.post('/newNote', async (req,res) => {
     const note = new Note({
@@ -60,9 +28,9 @@ router.post('/newNote', async (req,res) => {
     })
     try {
         const newNote = await note.save()
-        res.status(201).json({newNote, message: "you are authenticated!"}) //201 -> created something successfully
+        res.status(201).json({newNote, message: "you are authenticated!"})
     } catch (error) {
-        res.status(400).json({message: err.message}) //error 400: something wrong on user end such as bad data or unfilled data
+        res.status(400).json({message: err.message})
     }
 })
 
@@ -74,7 +42,7 @@ router.put('/update/:id/:title/:text', async (req,res) => {
             "text": req.body.text
         },
         {
-            new: true //returns modified instead of original, so updated json object is given instead of original
+            new: true
         }
         )
         res.status(200).json(note)     
@@ -100,21 +68,21 @@ router.delete('/delete/:id', async (req, res) => {
 ///////// LOGIN AUTHENTICATION ROUTES //////
 router.post('/register', async (req, res) => {
     try {
-        const salt = await bcrypt.genSalt(10)
-        const hashedPassword = await bcrypt.hash(req.body.password, salt)
-
         const checking = await Register.findOne({username: req.body.username}) 
         if(checking){
             return res.json({message: "username already exists, please choose another."})
         }
+        
+        const salt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(req.body.password, salt)
 
         const register = new Register({
             username: req.body.username,
             password: hashedPassword
         })
 
-        await register.save() //inserts it        
-
+        await register.save()
+        
     } catch (error) {
         console.log(error.message)
     }
@@ -129,20 +97,19 @@ router.post('/login', async (req, res) => {
         if(!register){
             return res.json({
                 auth: false,
-                message: "User not found" //for postman responses
+                message: "User not found"
             })
         }
-        // const result = await bcrypt.compare(req.body.password, hashedPassword)
-        if(!await bcrypt.compare(req.body.password, register.password)){ //register.password is the hashedPassword
+        if(!await bcrypt.compare(req.body.password, register.password)){
             return res.json({
                 auth:false,
-                message: "Invalid password" //for postman responses
+                message: "Invalid password"
             })
         }
         else{
             //attach a token to that id of user that successfully logged in:
             const id = register._id;
-            const token = jwt.sign({id}, "jwtSecret", {
+            const token = jwt.sign({id}, process.env.SECRET_KEY, {
                 expiresIn: 3000
             })
 
@@ -159,11 +126,20 @@ router.post('/login', async (req, res) => {
 
 })
 
-// router.post('/logout', (req, res) => {
-//     res.cookie('jwt','', {
-//         maxAge: 0 //causes the cookie to expire immediately by setting maxAge to 0 or past
-//     })
-//     res.send({
-//         message: "Success"
-//     })
-// })
+const verifyJWT = (req, res, next) => {
+    const token = req.headers["x-access-token"] //requesting the token from the client
+    if(!token){ //if we didn't get a token from the client -> we send back to them a message saying we didn't receive a token
+        return res.json({message: "there is no token"})
+    }
+    else{
+        jwt.verify(token, "jwtSecret", (err, decoded) => {
+            if(err) {
+                res.json({auth: false, message: "You failed to authenticate"});
+            }
+            else{
+                req.userId = decoded.id;
+                next();
+            }
+        })
+    }
+}
