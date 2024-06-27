@@ -14,5 +14,7 @@ Key Features:
 Usage:
 
 * Login: Authenticate securely using JWT tokens to access your personal note-taking space.
+  
 * Note Management: Insert, edit, and delete notes effortlessly from the platform's user-friendly interface.
+  
 * Text-to-Speech: Convert written notes into spoken audio, facilitating hands-free access and enhancing usability.
